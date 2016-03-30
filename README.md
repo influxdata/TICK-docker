@@ -1,59 +1,60 @@
 # TICK Stack
 
-This image provides the complete InfluxData TICK stack i.e Telegraf, InfluxDB, Chronograf and Kapacitor. To know more about the individual components see [this](https://influxdata.com/)
+Run the complete TICK stack using this [docker-compose](https://docs.docker.com/compose/) file.
+By using docker-compose all four official TICK stack images are started and linked together.
+To know more about the individual components see [this](https://influxdata.com/)
 
-Individual processes are started as a supervisor process group. InfluxDB and Chronograf are started by the Supervisord Daemon `supervisord`. However, process group influxdblistener is responsible for starting Telegraf and Kapacitor. This is as both Telegraf and Chronograf require InfluxDB to be running and listening for signals.
+## Usage
 
-[Supervisor Docs](http://supervisord.org/)
+Start all the  images as follows:
 
-## Using this image
+    # cd to desired version
+    cd 0.11/
+    # Start all images in the background
+    docker-compose up -d
 
-Start the image as follows
-
-	docker run --net=host tickstack
-
-####Check that InfluxDB works:
+###Check that InfluxDB works:
 
 Access the web inteface. [http://localhost:8083/](http://localhost:8083/)
 
-#####The `influx` client
+####The `influx` client
 
-Exec into a running docker container
+Use the built-in influx cli service:
 
-	docker exec -it $(docker ps | grep tickstack | awk '{print $1}') bash
+    docker-compose run influxdb-cli
 
-Start the client using the command `influx`
+###Check that Telegraf works
 
-####Check that Telegraf works
+By default, the Telegraf creates a `telegraf` database.
+Check that InfluxDB has such a database in addition to the `_internal` database.
 
-By default, the Telegraf creates a `telegraf` database. Check that InfluxDB has such a database in addition to the `_internal` database.
+    docker-compose run influxdb-cli
+    > show databases
 
-####Check that Chronograf works
+###Check that Chronograf works
 
-Chronograf runs on port 10000 by default. [http://localhost:10000](http://localhost:10000)
+Access the Chronograf inteface, [http://localhost:10000](http://localhost:10000)
 
-####Check Kapacitor works
+You will need to add the InfluxDB server.
+Use these settings:
 
-Exec into a running docker container
+Host: influxdb
+Port: 8086
 
-	docker exec -it $(docker ps | grep tickstack | awk '{print $1}') bash
+No auth or SSL.
 
-Follow the steps mentioned [here](https://docs.influxdata.com/kapacitor/v0.10/introduction/getting_started/). Telegraf uses `telegraf` database instead of `kapacitor_example`
 
-The above steps use the default configs for each of the components. Use component specific environment variables to point to custom configs. Following are the ENV vars with their default values
+###Check Kapacitor works
 
--	`INFLUXDB_CONFIG` `/etc/influxdb/influxdb.conf`
--	`TELEGRAF_CONFIG` `/etc/telegraf/telegraf.conf`
--	`CHRONOGRAF_CONFIG` `/opt/chronograf/config.toml`
--	`KAPACITOR_CONFIG` `/etc/kapacitor/kapacitor.conf`
+Use the built-in kapacitor cli service:
 
-Example: Using a custom config for Telegraf
+    docker-compose run kapacitor-cli
+    $ kapacitor list tasks
 
-	docker run -v ~/path/on/host/:/root/ --env TELEGRAF_CONFIG=/root/telegraf.conf --net=host tickstack
+Confirm Kapacitor is subscribed to all data in InfluxDB
 
-####Logs
-
-The stdout and stderr logs for each of the components is at `/var/log/supervisor/`
+    docker-compose run influxdb-cli
+    > show subscriptions
 
 ## Supported Docker versions
 
