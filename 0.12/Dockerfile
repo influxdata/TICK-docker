@@ -5,7 +5,7 @@ RUN apt-get update \
     ca-certificates apt-transport-https
 
 RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 684A14CF2582E0C5 && \
-    echo "deb https://repos.influxdata.com/debian jessie stable" > /etc/apt/sources.list.d/influxdata.list && \
+    echo "deb https://repos.influxdata.com/debian wheezy stable" > /etc/apt/sources.list.d/influxdata.list && \
     apt-get update
 
 ENV INFLUXDB_VERSION 0.12.2-1
