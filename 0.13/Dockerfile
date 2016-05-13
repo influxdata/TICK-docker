@@ -25,6 +25,8 @@ ENV CHRONOGRAF_CONFIG /opt/chronograf/config.toml
 ENV KAPACITOR_CONFIG /etc/kapacitor/kapacitor.conf
 
 ENV PATH /opt/chronograf/:$PATH
+ENV CHRONOGRAF_BIND 0.0.0.0:10000
+
 
 EXPOSE 8083 8086 8088 8091 8125 8092 8094 10000 9092
 
