@@ -1,0 +1,61 @@
+version: '2'
+
+services:
+  # Define a Telegraf service
+  telegraf:
+    image: telegraf:1.0.0-rc1
+    volumes:
+      - ./etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    links:
+      - influxdb
+    ports:
+      - "8092:8092/udp"
+      - "8094:8094"
+      - "8125:8125/udp"
+  # Define an InfluxDB service
+  influxdb:
+    image: influxdb:1.0.0-rc1
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+  # Define a Chronograf service
+  chronograf:
+    image: chronograf:1.0.0-rc1
+    volumes:
+      - ./data/chronograf:/var/lib/chronograf
+    ports:
+      - "10000:10000"
+    links:
+      - influxdb
+  # Define a Kapacitor service
+  kapacitor:
+    image: kapacitor:1.0.0-rc1
+    environment:
+      KAPACITOR_HOSTNAME: kapacitor
+      KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
+    volumes:
+      - ./data/kapacitor:/var/lib/kapacitor
+    links:
+      - influxdb
+    ports:
+      - "9092:9092"
+  # Define a service for using the influx CLI tool.
+  # docker-compose run influxdb-cli
+  influxdb-cli:
+    image: influxdb:1.0.0-rc1
+    entrypoint:
+      - influx
+      - -host
+      - influxdb
+    links:
+      - influxdb
+  # Define a service for using the kapacitor CLI tool.
+  # docker-compose run kapacitor-cli
+  kapacitor-cli:
+    image: kapacitor:1.0.0-rc1
+    entrypoint: bash
+    environment:
+      KAPACITOR_URL: http://kapacitor:9092
+    links:
+      - kapacitor

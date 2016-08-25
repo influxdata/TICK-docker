@@ -6,24 +6,27 @@ To know more about the individual components see [this](https://influxdata.com/)
 
 ## Usage
 
-Start all the  images as follows:
+Start all the images as follows:
 
     # cd to desired version
-    cd 0.11/
+    cd 1.0/
     # Start all images in the background
     docker-compose up -d
 
-###Check that InfluxDB works:
+### Check that InfluxDB works:
 
-Access the web inteface. [http://localhost:8083/](http://localhost:8083/)
+Run this curl command, if no errors occur InfluxDB is running:
 
-####The `influx` client
+    curl http://localhost:8086/ping
+
+
+#### The `influx` client
 
 Use the built-in influx cli service:
 
     docker-compose run influxdb-cli
 
-###Check that Telegraf works
+### Check that Telegraf works
 
 By default, the Telegraf creates a `telegraf` database.
 Check that InfluxDB has such a database in addition to the `_internal` database.
@@ -31,7 +34,7 @@ Check that InfluxDB has such a database in addition to the `_internal` database.
     docker-compose run influxdb-cli
     > show databases
 
-###Check that Chronograf works
+### Check that Chronograf works
 
 Access the Chronograf inteface, [http://localhost:10000](http://localhost:10000)
 
@@ -44,18 +47,23 @@ Port: 8086
 No auth or SSL.
 
 
-###Check Kapacitor works
+### Check Kapacitor works
+
+First, run this curl command, if no errors occur Kapacitor is running:
+
+    curl http://localhost:9092/kapacitor/v1/ping
+
 
 Use the built-in kapacitor cli service:
 
     docker-compose run kapacitor-cli
     $ kapacitor list tasks
 
-Confirm Kapacitor is subscribed to all data in InfluxDB
+Confirm Kapacitor is subscribed to all databases in InfluxDB
 
     docker-compose run influxdb-cli
     > show subscriptions
 
 ## Supported Docker versions
 
-This image is officially supported on Docker version 1.10.1
+This image is officially supported on Docker version 1.10.1 or newer.
