@@ -38,13 +38,13 @@ Check that InfluxDB has such a database in addition to the `_internal` database.
 
 Access the Chronograf inteface, [http://localhost:10000](http://localhost:10000)
 
-You will need to add the InfluxDB server.
+You will need to add the InfluxDB server. 
 Use these settings:
 
 Host: influxdb
 Port: 8086
 
-No auth or SSL.
+No auth or SSL. Note: Host is not localhost.
 
 
 ### Check Kapacitor works
