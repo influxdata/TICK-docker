@@ -24,6 +24,7 @@ services:
     image: chronograf:1.0.0-rc1
     volumes:
       - ./data/chronograf:/var/lib/chronograf
+      - ./etc/chronograf.conf:/etc/chronograf/chronograf.conf:ro
     ports:
       - "10000:10000"
     links:
