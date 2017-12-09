@@ -1,4 +1,4 @@
-version: '1'
+version: '3'
 
 services:
   # Define a Telegraf service
@@ -32,7 +32,7 @@ services:
       - kapacitor
   # Define a Kapacitor service
   kapacitor:
-    image: kapacitor:1.4.0
+    image: kapacitor:1.3.3
     environment:
       KAPACITOR_HOSTNAME: kapacitor
       KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
