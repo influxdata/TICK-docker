@@ -1,6 +1,6 @@
 # TICK Stack
 
-Run the complete TICK stack using this [docker-compose](https://docs.docker.com/compose/) file.
+Run the complete TICK stack using the [docker-compose](https://docs.docker.com/compose/) file in this repository.
 By using docker-compose all four official TICK stack images are started and linked together.
 To know more about the individual components see [this](https://influxdata.com/)
 
