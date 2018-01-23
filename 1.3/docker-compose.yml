@@ -21,7 +21,7 @@ services:
       - "8086:8086"
   # Define a Chronograf service
   chronograf:
-    image: chronograf:1.3.8
+    image: chronograf:1.4
     environment:
       INFLUXDB_URL: http://influxdb:8086
       KAPACITOR_URL: http://kapacitor:9092
