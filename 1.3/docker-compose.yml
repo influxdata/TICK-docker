@@ -3,7 +3,7 @@ version: '3'
 services:
   # Define a Telegraf service
   telegraf:
-    image: telegraf:1.4.0
+    image: telegraf:1.5
     volumes:
       - ./etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     links:
@@ -14,7 +14,7 @@ services:
       - "8125:8125/udp"
   # Define an InfluxDB service
   influxdb:
-    image: influxdb:1.3.5
+    image: influxdb:1.4
     volumes:
       - ./data/influxdb:/var/lib/influxdb
     ports:
@@ -32,7 +32,7 @@ services:
       - kapacitor
   # Define a Kapacitor service
   kapacitor:
-    image: kapacitor:1.3.3
+    image: kapacitor:1.4
     environment:
       KAPACITOR_HOSTNAME: kapacitor
       KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
@@ -43,7 +43,7 @@ services:
   # Define a service for using the influx CLI tool.
   # docker-compose run influxdb-cli
   influxdb-cli:
-    image: influxdb:1.3.5
+    image: influxdb:1.4
     entrypoint:
       - influx
       - -host
@@ -53,7 +53,7 @@ services:
   # Define a service for using the kapacitor CLI tool.
   # docker-compose run kapacitor-cli
   kapacitor-cli:
-    image: kapacitor:1.3.3
+    image: kapacitor:1.4
     entrypoint: bash
     environment:
       KAPACITOR_URL: http://kapacitor:9092
