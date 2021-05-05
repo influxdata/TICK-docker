@@ -1,4 +1,10 @@
-# TICK Stack
+# This repository will be archived on May 10th, 2021
+#
+# Use: https://github.com/influxdata/sandbox instead.
+
+
+
+# 1.x TICK Stack
 
 Run the complete TICK stack using this [docker-compose](https://docs.docker.com/compose/) file.
 By using docker-compose all four official TICK stack images are started and linked together.
